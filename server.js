@@ -17,7 +17,7 @@ function registerRoutes () {
   server.route({
     method: 'GET',
     path: '/auth',
-    handler: authController.auth
+    handler: authController.get
   })
 }
 

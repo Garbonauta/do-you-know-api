@@ -38,7 +38,7 @@ export function mount(server) {
     validate,
     verifyOptions: {
       audience: process.env.AUTH_0_AUDIENCE,
-      issuer: process.env.AUTH_0_ISSUER,
+      issuer: `${process.env.AUTH_0_DOMAIN}/`,
       algorithms: ['RS256'],
     },
   });
