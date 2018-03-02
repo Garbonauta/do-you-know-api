@@ -2,13 +2,9 @@ import {getAuthInfoFromJWT} from '../helpers/utils'
 import {getAuth0FullUserProfile} from '../helpers/api'
 
 class AuthController {
-  get(req, h) {
+  async get(req, h) {
     const authInfo = getAuthInfoFromJWT(req);
-    getAuth0FullUserProfile(authInfo)
-      .then(resp => {
-        console.log('resp', resp)
-      })
-      .catch(error => console.log('error', error));
+    const profile = await getAuth0FullUserProfile(authInfo);
     return {auth: "Authed"}
   }
 }
