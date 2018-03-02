@@ -10,6 +10,6 @@ export function getAuth0FullUserProfile(id) {
   })
     .then(response => {
       return response.json()
-        .then(data => response.ok ? data : Promoise.reject(data));
+        .then(data => response.ok ? data : Promise.reject(data));
     })
 }

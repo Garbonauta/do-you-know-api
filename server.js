@@ -1,6 +1,8 @@
 import Hapi from 'hapi'
 import hapiAuthJWT from 'hapi-auth-jwt2'
-import { mount } from './src/config/Key'
+import Good from 'good'
+import GoodConsole from 'good-console'
+import {mount} from './src/config/Key'
 import AuthController from './src/controllers/AuthController'
 
 const authController = new AuthController();
@@ -9,11 +11,11 @@ const server = new Hapi.server({
   port: process.env.SERVER_PORT,
   host: process.env.SERVER_HOST,
   routes: {
-    cors: true
+    cors: true,
   },
 });
 
-function registerRoutes () {
+function registerRoutes() {
   server.route({
     method: 'GET',
     path: '/auth',
@@ -21,8 +23,25 @@ function registerRoutes () {
   })
 }
 
-async function init () {
-  await server.register(hapiAuthJWT);
+async function init() {
+  await server.register(
+    [
+      hapiAuthJWT,
+      {
+        plugin: Good,
+        options: {
+          reporters: {
+            consoleReporter: [{
+              module: 'good-console',
+              args: [{
+                log: '*',
+                response: '*',
+              }]
+            }, 'stdout',]
+          }
+        }
+      }
+    ]);
 
   mount(server);
 
@@ -34,5 +53,5 @@ async function init () {
 }
 
 init()
-  .then(server => console.log('Server running'))
+  .then(server => server.log('info', `Server running`))
   .catch(err => console.log('err'));

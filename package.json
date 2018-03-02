@@ -8,8 +8,10 @@
   },
   "dependencies": {
     "dotenv": "^5.0.0",
+    "good": "^8.1.0",
+    "good-console": "^7.1.0",
     "hapi": "^17.2.0",
-    "hapi-auth-jwt2": "github:salzhrani/hapi-auth-jwt2#v-17",
+    "hapi-auth-jwt2": "^8.0.0",
     "jwks-rsa": "^1.2.1",
     "node-fetch": "^2.0.0"
   },
