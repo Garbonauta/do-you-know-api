@@ -1,8 +1,8 @@
 import Hapi from 'hapi'
 import hapiAuthJWT from 'hapi-auth-jwt2'
 import Good from 'good'
-import AuthRoutes from './src/plugins/AuthRoutes'
-import {mount} from './src/config/Key'
+import AuthRoutes from 'plugins/AuthRoutes'
+import {mount} from 'config/key'
 
 const server = new Hapi.server({
   port: process.env.PORT || 3000,

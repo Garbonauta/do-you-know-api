@@ -1,6 +1,6 @@
 'use strict';
 
-import AuthController from '../controllers/AuthController'
+import {AuthController} from 'controllers'
 const authController = new AuthController();
 
 const AuthRoutesPlugin = {
