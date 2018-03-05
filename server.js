@@ -40,5 +40,5 @@ async function init() {
 }
 
 init()
-  .then(server => server.log('info', `Server running`))
+  .then(server => server.log('info', `Server running, port: ${server.info.port}`))
   .catch(err => console.log('err'));
