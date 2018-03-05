@@ -5,7 +5,7 @@ import AuthRoutes from './src/plugins/AuthRoutes'
 import {mount} from './src/config/Key'
 
 const server = new Hapi.server({
-  port: process.env.SERVER_PORT || 3000,
+  port: process.env.PORT || 3000,
   routes: {
     cors: true,
   },
