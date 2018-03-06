@@ -40,11 +40,14 @@ function upsertUserDetails(trx, {id, email, link, picture, pictureLarge, gender}
 }
 
 export function upsertUserAndDetails(user) {
-  return Knex.transaction(trx => {
-    upsertUser(trx, user)
-      .then(() => upsertUserDetails(trx, user))
-      .then(trx.commit)
-      .catch(trx.rollback);
+  return Knex.transaction(async trx => {
+    try {
+      await upsertUser(trx, user);
+      await upsertUserDetails(trx, user.details);
+      trx.commit;
+    } catch (exception) {
+      trx.rollback;
+    }
   })
 }
 

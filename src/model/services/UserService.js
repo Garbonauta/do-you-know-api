@@ -28,16 +28,19 @@ export async function getUserWithProfile({
   const cProfile = {
     id,
     firstName,
+    middleName,
     lastName,
     fullName,
-    gender,
-    picture,
-    pictureLarge,
-    link,
-    email,
     loginCount,
     createdAt,
     lastLogin,
+    details: {
+      gender,
+      picture,
+      pictureLarge,
+      link,
+      email,
+    },
   };
 
   const p1 = upsertUserModel(cProfile);
