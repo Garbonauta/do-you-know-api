@@ -1,18 +1,19 @@
 import Knex from 'config/knex'
 
-function upsertUser(trx, {id, firstName, middleName, lastName, loginCount, createdAt, lastLogin}) {
+function upsertUser(trx, {id, firstName, middleName, lastName, fullName, loginCount, createdAt, lastLogin}) {
   return trx.raw(
-    `insert into users (user_id, first_name, middle_name, last_name, login_count, created_at, last_login)
-       values (:id, :firstName, :middleName, :lastName, :loginCount, :createdAt, :lastLogin)
+    `insert into users (user_id, first_name, middle_name, last_name, full_name, login_count, created_at, last_login)
+       values (:id, :firstName, :middleName, :lastName, :fullName, :loginCount, :createdAt, :lastLogin)
      on conflict (user_id) do update
-     set first_name = :firstName, middle_name = :middleName, last_name = :lastName, login_count = :loginCount, 
-         created_at = :createdAt, last_login = :lastLogin
+     set first_name = :firstName, middle_name = :middleName, last_name = :lastName, full_name = :fullName,
+         login_count = :loginCount, created_at = :createdAt, last_login = :lastLogin
      returning *`,
     {
       id,
       firstName,
       middleName: middleName || null,
       lastName: lastName || null,
+      fullName,
       loginCount: loginCount || null,
       createdAt: createdAt ? new Date(createdAt) : null,
       lastLogin: lastLogin ? new Date(lastLogin) : null,
@@ -38,16 +39,20 @@ function upsertUserDetails(trx, {id, email, link, picture, pictureLarge, gender}
   );
 }
 
-export function updateOrInsertUser({
-  user_id: id, given_name: firstName, middle_name: middleName, family_name: lastName,
-  gender, picture, picture_large: pictureLarge, link, email,
-  logins_count: loginCount, created_at: createdAt, last_login: lastLogin
-})
-{
+export function upsertUserAndDetails(user) {
   return Knex.transaction(trx => {
-    upsertUser(trx, {id, firstName, middleName, lastName, loginCount, createdAt, lastLogin})
-      .then(() => upsertUserDetails(trx, {id, email, link, picture, pictureLarge, gender}))
+    upsertUser(trx, user)
+      .then(() => upsertUserDetails(trx, user))
       .then(trx.commit)
       .catch(trx.rollback);
   })
+}
+
+export function getUserFriends(friends) {
+  return Knex
+    .select('users.first_name', 'users.middle_name', 'users.last_name', 'users.full_name',
+      'users_details.picture', 'users_details.link')
+    .from('users')
+    .innerJoin('users_details', 'users.user_id', 'users_details.user_id')
+    .whereIn('users.user_id', friends);
 }

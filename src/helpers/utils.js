@@ -1,4 +1,3 @@
-export function getAuthInfoFromJWT(request) {
-  const {auth : {artifacts, credentials : {payload : {sub}}}} = request;
+export function getAuthInfoFromJWT({auth: {artifacts, credentials: {payload: {sub}}}}) {
   return sub;
 }
