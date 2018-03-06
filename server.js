@@ -1,7 +1,7 @@
 import Hapi from 'hapi'
 import hapiAuthJWT from 'hapi-auth-jwt2'
 import Good from 'good'
-import AuthRoutes from 'routes/Auth/AuthRoutes'
+import AuthRoutes from 'routes/Login/LoginRoutes'
 import {mount} from 'config/key'
 
 const server = new Hapi.server({

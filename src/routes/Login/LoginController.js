@@ -3,8 +3,8 @@ import {getAuth0FullUserProfile} from 'helpers/api'
 import {upsertUserFromProfile, getUserFriendsFromProfile} from 'model/services/UserService'
 import Boom from 'boom'
 
-class AuthController {
-  async get(req, h) {
+class LoginController {
+  async login(req, h) {
     const authInfo = getAuthInfoFromJWT(req);
 
     const profile = await getAuth0FullUserProfile(authInfo);
@@ -19,4 +19,4 @@ class AuthController {
   }
 }
 
-export default AuthController;
+export default LoginController;
