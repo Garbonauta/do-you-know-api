@@ -1,6 +1,6 @@
 import {getAuthInfoFromJWT} from 'helpers/utils'
 import {getAuth0FullUserProfile} from 'helpers/api'
-import {upsertUserFromProfile, getUserFriendsFromProfile} from 'model/services/UserService'
+import {getUserWithProfile} from 'model/services/UserService'
 import Boom from 'boom'
 
 class LoginController {
@@ -9,13 +9,9 @@ class LoginController {
 
     const profile = await getAuth0FullUserProfile(authInfo);
 
-    if (authInfo === profile.user_id) {
-      const promises = [upsertUserFromProfile(profile), getUserFriendsFromProfile(profile.context.mutual_friends.data)];
-
-      await Promise.all(promises);
-      return {auth: "Authed"}
-    }
-    return Boom.forbidden('Operation is forbidden for user access');
+    return authInfo === profile.user_id
+      ? getUserWithProfile(profile)
+      : Boom.forbidden('Operation is forbidden for user access');
   }
 }
 
