@@ -10,8 +10,9 @@ class AuthController {
     const profile = await getAuth0FullUserProfile(authInfo);
 
     if (authInfo === profile.user_id) {
-      await upsertUserFromProfile(profile);
-      const friends = await getUserFriendsFromProfile(profile.context.mutual_friends.data);
+      const promises = [upsertUserFromProfile(profile), getUserFriendsFromProfile(profile.context.mutual_friends.data)];
+
+      await Promise.all(promises);
       return {auth: "Authed"}
     }
     return Boom.forbidden('Operation is forbidden for user access');
