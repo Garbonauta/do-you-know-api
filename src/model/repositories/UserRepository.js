@@ -21,9 +21,9 @@ function upsertUser(trx, {id, firstName, middleName, lastName, fullName, loginCo
   );
 }
 
-function upsertUserDetails(trx, {id, email, link, picture, pictureLarge, gender}) {
+function upsertUserDetails(trx, id, {email, link, picture, pictureLarge, gender}) {
   return trx.raw(
-    `insert into users_details (user_id, email, link, picture, picture_large, gender)
+    `insert into users_details(user_id, email, link, picture, picture_large, gender)
        values (:id, :email, :link, :picture, :pictureLarge, :gender)
      on conflict (user_id) do update
      set email = :email, link = :link, picture = :picture, picture_large = :pictureLarge, gender = :gender
@@ -43,10 +43,11 @@ export function upsertUserAndDetails(user) {
   return Knex.transaction(async trx => {
     try {
       await upsertUser(trx, user);
-      await upsertUserDetails(trx, user.details);
+      await upsertUserDetails(trx, user.id, user.details);
       trx.commit;
     } catch (exception) {
       trx.rollback;
+      throw exception
     }
   })
 }
