@@ -29,8 +29,13 @@ async function init() {
           }
         }
       },
-      AuthRoutes,
     ]);
+
+  await server.register(AuthRoutes, {
+    routes: {
+      prefix: '/login'
+    }
+  });
 
   mount(server);
 

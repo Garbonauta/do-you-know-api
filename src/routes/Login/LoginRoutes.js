@@ -7,7 +7,7 @@ const LoginRoutesPlugin = {
   register: async function (server) {
     server.route({
       method: 'GET',
-      path: '/login',
+      path: '/',
       handler: loginController.login
     })
   }
