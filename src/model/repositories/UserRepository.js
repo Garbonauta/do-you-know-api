@@ -54,8 +54,10 @@ export function upsertUserAndDetails(user) {
 
 export function getUserFriends(friends) {
   return Knex
-    .select('users.first_name', 'users.middle_name', 'users.last_name', 'users.full_name',
-      'users_details.picture', 'users_details.link')
+    .select(
+      'users.full_name as name',
+      'users_details.picture',
+      'users_details.link')
     .from('users')
     .innerJoin('users_details', 'users.user_id', 'users_details.user_id')
     .whereIn('users.user_id', friends);
