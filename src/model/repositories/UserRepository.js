@@ -52,6 +52,22 @@ export function upsertUserAndDetails(user) {
   })
 }
 
+
+export function getUser(id) {
+  return Knex
+    .select(
+      'first_name as firstName',
+      'last_name as lastName',
+      'middle_name as middleName',
+      'full_name as fullName',
+      'super_user as superUser',
+      'login_count as loginCount',
+      'created_at as createdAt',
+      'last_login as lastLogin')
+    .from('users')
+    .where('user_id', id)
+}
+
 export function getUserFriends(friends) {
   return Knex
     .select(
@@ -62,3 +78,15 @@ export function getUserFriends(friends) {
     .innerJoin('users_details', 'users.user_id', 'users_details.user_id')
     .whereIn('users.user_id', friends);
 }
+
+
+export function getUserGroups(id) {
+  return Knex
+    .select(
+      'groups.group_id as id',
+      'groups.name')
+    .from('users_groups')
+    .innerJoin('groups', 'groups.group_id', 'users_groups.group_id')
+    .where('users_groups.user_id', id)
+}
+

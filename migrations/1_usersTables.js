@@ -21,7 +21,7 @@ exports.up = function(knex, Promise) {
       usersDetailsTable.string( 'picture', 200).notNullable();
       usersDetailsTable.string( 'picture_large', 200).notNullable();
       usersDetailsTable.string( 'gender', 20 );
-  })
+    })
 };
 
 exports.down = function(knex, Promise) {

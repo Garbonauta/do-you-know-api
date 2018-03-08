@@ -1,4 +1,4 @@
-import {upsertUserAndDetails, getUserFriends} from 'model/repositories/UserRepository'
+import {upsertUserAndDetails, getUser as getUserDb, getUserFriends, getUserGroups as getUserGroupsDb} from 'model/repositories/UserRepository'
 
 export function upsertUserModel(user) {
   return upsertUserAndDetails(user);
@@ -7,6 +7,14 @@ export function upsertUserModel(user) {
 export function getFriendsFromList(friends) {
   const friendsIds = friends.map(friend => `facebook|${friend.id}`);
   return getUserFriends(friendsIds);
+}
+
+export async function getUser(id) {
+  const user = await getUserDb(id);
+  if (user.length === 1) {
+    return user[0];
+  }
+  throw new Error('Error fetching user')
 }
 
 export async function getUserWithProfile({
@@ -51,3 +59,9 @@ export async function getUserWithProfile({
   cProfile.friends = userFriends;
   return cProfile
 }
+
+
+export function getUserGroups(id) {
+  return getUserGroupsDb(id)
+}
+

@@ -2,7 +2,8 @@ import Hapi from 'hapi'
 import hapiAuthJWT from 'hapi-auth-jwt2'
 import Good from 'good'
 import AuthRoutes from 'routes/Login/LoginRoutes'
-import {mount} from 'config/key'
+import UserRoutes from 'routes/User/UserRoutes'
+import { mount } from 'config/key'
 
 const server = new Hapi.server({
   port: process.env.PORT || 3000,
@@ -34,6 +35,12 @@ async function init() {
   await server.register(AuthRoutes, {
     routes: {
       prefix: '/login'
+    }
+  });
+
+  await server.register(UserRoutes, {
+    routes: {
+      prefix: '/user'
     }
   });
 
