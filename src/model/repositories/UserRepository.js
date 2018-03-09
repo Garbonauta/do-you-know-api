@@ -84,7 +84,8 @@ export function getUserGroups(id) {
   return Knex
     .select(
       'groups.group_id as id',
-      'groups.name')
+      'groups.name',
+      'users_groups.favorite')
     .from('users_groups')
     .innerJoin('groups', 'groups.group_id', 'users_groups.group_id')
     .where('users_groups.user_id', id)
