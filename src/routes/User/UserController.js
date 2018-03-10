@@ -1,6 +1,6 @@
 import {getAuth0FullUserProfile} from 'helpers/api'
-import {getUserGroups} from 'model/services/UserService'
-import {validateOwnerOrSuperUser} from 'model/services/ValidationService'
+import {getUserGroups} from 'models/services/user'
+import {validateOwnerOrSuperUser} from 'models/services/validation'
 import Boom from 'boom'
 
 class UserController {

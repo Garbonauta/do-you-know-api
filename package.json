@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_PATH=./src node bootstrap.js",
-    "knex": "knex"
+    "start": "NODE_PATH=./src node bootstrap.js"
   },
   "dependencies": {
     "boom": "^7.2.0",
@@ -15,9 +14,8 @@
     "hapi": "^17.2.0",
     "hapi-auth-jwt2": "^8.0.0",
     "jwks-rsa": "^1.2.1",
-    "knex": "^0.14.4",
-    "node-fetch": "^2.0.0",
-    "pg": "^7.4.1"
+    "mongoose": "^5.0.9",
+    "node-fetch": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.40",

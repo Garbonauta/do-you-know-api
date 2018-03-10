@@ -1,4 +1,4 @@
-import {getUser} from 'model/services/UserService'
+import {getUser} from 'models/services/user'
 import {getAuthInfoFromJWT} from 'helpers/utils'
 
 

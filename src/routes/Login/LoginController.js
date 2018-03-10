@@ -1,6 +1,6 @@
 import {getAuthInfoFromJWT} from 'helpers/utils'
 import {getAuth0FullUserProfile} from 'helpers/api'
-import {getUserWithProfile} from 'model/services/UserService'
+import {handleUserProfile} from 'models/services/login'
 import Boom from 'boom'
 
 class LoginController {
@@ -10,7 +10,7 @@ class LoginController {
     const profile = await getAuth0FullUserProfile(authInfo);
 
     return authInfo === profile.user_id
-      ? getUserWithProfile(profile)
+      ? handleUserProfile(profile)
       : Boom.forbidden('Operation is forbidden for user access');
   }
 }

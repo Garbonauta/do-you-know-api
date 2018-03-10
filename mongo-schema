@@ -1,0 +1,71 @@
+users
+  [uid]
+    info
+      firstName
+      middleName
+      lastName
+      FullName
+      link
+      email
+      gender
+      pictures:
+        small
+        large
+    meta
+      score
+      [groups]
+        groupId
+        favorite
+      [posts]
+        postId
+      [comments]
+        commentId
+    [notifications]
+    superUser
+    createdAt
+    lastLogin
+    loginCount
+
+Groups
+  [groupId]
+    name
+    pictureUrl
+    owner
+    [moderators]
+      uid
+    [members]
+      uid
+        banned
+    visibility
+    createdAt
+    [posts]
+      postId
+
+
+Post
+  [postId]
+    title
+    uid
+    groupId
+    [images]
+    txt
+    categoryId
+    createdDate
+    modifiedDate
+    [commentId]
+
+Comments
+  [commentId]
+    score
+    uid
+    votes: [uid]
+    image
+    text
+    createdDate
+    modifiedDate
+
+Category
+  [id]
+    name
+    [groupId]
+      [postId]
