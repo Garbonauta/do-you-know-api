@@ -2,7 +2,6 @@ import Hapi from 'hapi'
 import hapiAuthJWT from 'hapi-auth-jwt2'
 import Good from 'good'
 import AuthRoutes from 'routes/Login/LoginRoutes'
-import UserRoutes from 'routes/User/UserRoutes'
 import MongoosePlugin from 'config/mongoose'
 import { mount } from 'config/key'
 
@@ -40,12 +39,6 @@ async function init() {
       prefix: '/login'
     }
   });
-
-  // await server.register(UserRoutes, {
-  //   routes: {
-  //     prefix: '/user'
-  //   }
-  // });
 
   mount(server);
 
