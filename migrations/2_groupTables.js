@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
     .createTable( 'groups', groupTable => {
       groupTable.increments('group_id');
       groupTable.string('name', 50).notNullable();
-      groupTable.string('created_by', 50).notNullable();
+      groupTable.string('owner', 50).notNullable();
       groupTable.timestamp('created_date').notNullable();
     })
 

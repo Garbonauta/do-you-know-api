@@ -85,7 +85,7 @@ export function getUserGroups(id) {
     .select(
       'groups.group_id as id',
       'groups.name',
-      'users_groups.favorite')
+      'users_groups.owner')
     .from('users_groups')
     .innerJoin('groups', 'groups.group_id', 'users_groups.group_id')
     .where('users_groups.user_id', id)
