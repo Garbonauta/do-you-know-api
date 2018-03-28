@@ -1,5 +1,4 @@
 import {upsertUser, getFriendsFromList} from 'models/services/user'
-import {getGroups} from 'models/services/group'
 
 export async function handleUserProfile({
                                            user_id: id,

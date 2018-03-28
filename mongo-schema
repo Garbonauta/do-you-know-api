@@ -12,10 +12,10 @@ users
         small
         large
     meta
+      favoriteGroup
       score
       [groups]
         groupId
-        favorite
       [posts]
         postId
       [comments]

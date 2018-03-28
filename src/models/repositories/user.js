@@ -2,7 +2,7 @@ import {User} from 'models/models'
 
 export async function upsertUser(id, nUser) {
   let user;
-  const dbUser = await User.findById(id).populate('meta.groups.groupId', '_id name pictureUrl');
+  const dbUser = await User.findById(id);
 
   if(!dbUser) {
     user = new User({

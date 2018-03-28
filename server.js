@@ -1,7 +1,7 @@
 import Hapi from 'hapi'
 import hapiAuthJWT from 'hapi-auth-jwt2'
 import Good from 'good'
-import AuthRoutes from 'routes/Login/LoginRoutes'
+import { LoginRoutes, GroupRoutes } from 'routes'
 import MongoosePlugin from 'config/mongoose'
 import { mount } from 'config/key'
 
@@ -34,9 +34,15 @@ async function init() {
 
   await server.register(MongoosePlugin);
 
-  await server.register(AuthRoutes, {
+  await server.register(LoginRoutes, {
     routes: {
       prefix: '/login'
+    }
+  });
+
+  await server.register(GroupRoutes, {
+    routes: {
+      prefix: '/groups'
     }
   });
 

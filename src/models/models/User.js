@@ -17,8 +17,9 @@ const userSchema = new Schema({
     }
   },
   meta: {
+    favoriteGroup: Schema.Types.ObjectId,
     score: {type:Number, default: 0},
-    groups: [{groupId: {type:Schema.Types.ObjectId, ref: 'Group'}, favorite: Boolean}],
+    groups: [{type:Schema.Types.ObjectId, ref: 'Group'}],
     posts: [Schema.Types.ObjectId],
     comments: [Schema.Types.ObjectId],
   },
