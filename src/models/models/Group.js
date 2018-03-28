@@ -6,9 +6,9 @@ const groupSchema = new Schema({
   _id: Schema.Types.ObjectId,
   name: String,
   pictureUrl: String,
-  owner: String,
-  moderators: [{type: String, ref: 'Users'}],
-  members: [{type: Schema.Types.Mixed, ref: 'Users'}],
+  owner: {type: String, ref: 'User'},
+  moderators: [{type: String, ref: 'User'}],
+  members: [{type: Schema.Types.Mixed, ref: 'User'}],
   visibility: Boolean,
   createdAt: {type: Date, default: Date.now()},
 });
