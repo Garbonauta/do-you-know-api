@@ -4,7 +4,7 @@ const MongoosePlugin = {
   name: 'MongoosePlugin',
   version: '1.0.0',
   register: async function (server) {
-    Mongoose.connect(process.env.MONGO_URI);
+    Mongoose.connect(process.env.MONGODB_URI);
 
     const db = Mongoose.connection;
 
