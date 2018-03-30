@@ -1,14 +1,25 @@
-import {getUser} from 'models/services/user'
-import {getAuthInfoFromJWT} from 'helpers/utils'
+import { getUser, userGroupExists } from 'models/services/user'
+import { getAuthInfoFromJWT } from 'helpers/utils'
 
-
-export async function validateOwnerOrSuperUser (request) {
-  const authInfo = getAuthInfoFromJWT(request);
-  const userId = request.params.user;
-  if (authInfo === userId) {
-    return true;
+export async function validateSuperUser(userId) {
+  try {
+    const userInfo = await getUser(userId);
+    return userInfo.superUser === true;
+  } catch (error) {
+    return false
   }
-  const userInfo = await getUser(authInfo);
-
-  return userInfo.superUser ? userInfo.superUser: false;
 }
+
+export function validateUserIdAuth (authInfo, userId) {
+  return authInfo === userId;
+}
+
+export async function validateUserGroup(userId, groupId) {
+  try {
+    return await userGroupExists(userId, groupId)
+  } catch(error) {
+    return false
+  }
+}
+
+

@@ -20,7 +20,10 @@ const userSchema = new Schema({
     favoriteGroup: Schema.Types.ObjectId,
     score: {type:Number, default: 0},
     groups: [{type:Schema.Types.ObjectId, ref: 'Group'}],
-    posts: [Schema.Types.ObjectId],
+    posts: [{
+      groupId: Schema.Types.ObjectId,
+      postId: Schema.Types.ObjectId,
+    }],
     comments: [Schema.Types.ObjectId],
   },
   notifications: [Schema.Types.Mixed],
