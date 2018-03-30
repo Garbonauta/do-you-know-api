@@ -36,23 +36,25 @@ Groups
     [members]
       uid
         banned
+        score
     visibility
     createdAt
     [posts]
       postId
 
 
-Post
-  [postId]
-    title
-    uid
-    groupId
-    [images]
-    txt
-    categoryId
-    createdDate
-    modifiedDate
-    [commentId]
+GroupPost
+  [group]
+    [postId]
+       title
+        uid
+        groupId
+        [images]
+        txt
+        categoryId
+        createdDate
+        modifiedDate
+        [commentId]
 
 Comments
   [commentId]

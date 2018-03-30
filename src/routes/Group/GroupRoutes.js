@@ -8,8 +8,13 @@ const GroupRoutesPlugin = {
     server.route({
       method: 'GET',
       path: '/',
-      handler: groupController.list
-    })
+      handler: groupController.list,
+    });
+    server.route({
+      method: 'POST',
+      path: '/{groupId}/posts',
+      handler: groupController.createGroupPost,
+    });
   }
 };
 
