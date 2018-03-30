@@ -11,7 +11,7 @@ export async function insertGroupPost(groupId, {postText}) {
 
   if(!groupPost) {
     groupPost = new GroupPost({
-      _id: mongoose.Types.ObjectId(),
+      _id: groupId,
       posts: [post]
     });
   } else {
