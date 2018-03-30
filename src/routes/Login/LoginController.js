@@ -15,7 +15,8 @@ class LoginController {
         : Boom.forbidden('Operation is forbidden for user access');
     }
     catch (error) {
-      return Boom.badRequest(error)
+      req.log('error', error);
+      return Boom.badRequest('Unexpected error login in user')
     }
   }
 }

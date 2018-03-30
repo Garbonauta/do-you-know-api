@@ -6,7 +6,7 @@ export const postSchema = new Schema({
   _id: Schema.Types.ObjectId,
   groupId: Schema.Types.ObjectId,
   text: String,
-  owner: String,
+  owner: {type: String, ref: 'User'},
   createdAt: {type: Date, default: Date.now()},
   modifiedAt: Date,
 });

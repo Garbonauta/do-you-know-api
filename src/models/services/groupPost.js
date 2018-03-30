@@ -1,5 +1,13 @@
-import { insertGroupPost } from 'models/repositories/groupPost'
+import { insertGroupPost, getGroupPosts as getGroupPostsDb } from 'models/repositories/groupPost'
 import { insertUserGroupPost } from 'models/services/user'
+
+export async function getGroupPosts (groupId) {
+  try {
+    return await getGroupPostsDb(groupId)
+  } catch (error) {
+    throw(error)
+  }
+}
 
 export async function postUserGroupPost (userId, groupId, payload) {
   try {
