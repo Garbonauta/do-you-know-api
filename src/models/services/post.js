@@ -9,8 +9,8 @@ export async function insertPost(post) {
   return obj.toObject()
 }
 
-export function getPost(postId) {
-  return getPostDb(postId)
+export async function getPost(postId) {
+  return await getPostDb(postId)
 }
 
 export function deletePost(postId) {

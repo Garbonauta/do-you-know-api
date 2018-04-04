@@ -13,7 +13,10 @@ export function insertPost({ postText, owner, createdAt }) {
 
 export async function getPost(postId) {
   return Post.findById(postId)
-    .populate('owner')
+    .populate(
+      'owner',
+      '_id info.firstName info.middleName info.lastName info.fullName info.link info.email info.pictures meta.score meta.groups createdAt'
+    )
     .lean()
 }
 

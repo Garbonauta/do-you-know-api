@@ -8,8 +8,10 @@ import {
 } from 'models/services/groupPost'
 import {
   validateUserGroup,
-  validateSuperUser,
+  isSuperUser,
   validateGroupPostUser,
+  isPostOwner,
+  isGroupModerator,
 } from 'models/services/validation'
 import Boom from 'boom'
 
@@ -26,10 +28,7 @@ class GroupController {
     const groupId = req.params.groupId
 
     try {
-      if (
-        !validateUserGroup(authInfo, groupId) &&
-        !validateSuperUser(authInfo)
-      ) {
+      if (!validateUserGroup(authInfo, groupId) && !isSuperUser(authInfo)) {
         return Boom.unauthorized('Unauthorized User')
       }
       return await getGroupPostService(groupId)
@@ -46,7 +45,7 @@ class GroupController {
     try {
       if (
         !validateUserGroup(authInfo, groupId) &&
-        !validateSuperUser(authInfo) &&
+        !isSuperUser(authInfo) &&
         !data.owner === authInfo
       ) {
         return Boom.unauthorized('Unauthorized User')
@@ -62,13 +61,22 @@ class GroupController {
     const authInfo = getAuthInfoFromJWT(req)
     const groupId = req.params.groupId
     const postId = req.params.postId
+    if (
+      !isPostOwner(postId) &&
+      !isGroupModerator &&
+      !isSuperUser(authInfo) &&
+      !data.owner === authInfo
+    ) {
+      return Boom.unauthorized('Unauthorized User')
+    }
 
     try {
+      isPostOwner(postId, authInfo)
       await deleteUserGroupPost(authInfo, groupId, postId)
       return h.response().code(204)
     } catch (error) {
       req.log('error', error)
-      return Boom.badRequest('Unexpected Error Creating New Post')
+      return Boom.badRequest('Unexpected Error Deleting Post')
     }
   }
 }
