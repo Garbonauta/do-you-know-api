@@ -8,8 +8,9 @@ import {
 
 export async function upsertUser(id, user) {
   const result = await upsertUserDb(id, user)
-  delete result.info.email
-  return result
+  const resultObj = result.toObject()
+  delete resultObj.info.email
+  return resultObj
 }
 
 export function getUserInfo(id) {

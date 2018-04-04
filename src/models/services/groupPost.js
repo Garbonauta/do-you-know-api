@@ -3,12 +3,13 @@ import {
   getGroupPosts as getGroupPostsDb,
   deleteGroupPost,
 } from 'models/repositories/groupPost'
-import { insertPost, deletePost } from 'models/repositories/post'
+import { insertPost, deletePost } from 'models/services/post'
 import { insertUserGroupPost } from 'models/services/user'
 
 export async function getGroupPosts(groupId) {
   try {
-    return await getGroupPostsDb(groupId)
+    const posts = await getGroupPostsDb(groupId)
+    return posts ? posts : {}
   } catch (error) {
     throw error
   }

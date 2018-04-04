@@ -14,13 +14,11 @@ export async function upsertUser(id, nUser) {
     user = Object.assign(dbUser, nUser)
   }
 
-  await user.save()
-
-  return user.toObject()
+  return user.save()
 }
 
 export function getUserInfo(id) {
-  return User.findById(id, '_id info')
+  return User.findById(id, '_id info').lean()
 }
 
 export function getUserInfoByArray(ids) {

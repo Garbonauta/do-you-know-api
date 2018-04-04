@@ -3,14 +3,15 @@ import mongoose from 'mongoose'
 import Group from '../models/Group'
 
 export async function getGroupPosts(groupId) {
-  const posts = await GroupPost.findById(groupId).populate({
-    path: 'posts',
-    populate: {
-      path: 'owner',
-      select: 'info.fullName info.link info.pictures.small',
-    },
-  })
-  return posts ? posts.toObject() : {}
+  return await GroupPost.findById(groupId)
+    .populate({
+      path: 'posts',
+      populate: {
+        path: 'owner',
+        select: 'info.fullName info.link info.pictures.small',
+      },
+    })
+    .lean()
 }
 
 export async function insertGroupPost(groupId, postId) {

@@ -1,15 +1,20 @@
 import { Post } from 'models/models'
 import mongoose from 'mongoose'
 
-export async function insertPost({ postText, owner, createdAt }) {
+export function insertPost({ postText, owner, createdAt }) {
   const post = new Post({
     _id: mongoose.Types.ObjectId(),
     text: postText,
     owner,
     createdAt: new Date(createdAt),
   })
-  await post.save()
-  return post.toObject()
+  return post.save()
+}
+
+export async function getPost(postId) {
+  return Post.findById(postId)
+    .populate('owner')
+    .lean()
 }
 
 export function deletePost(postId) {
