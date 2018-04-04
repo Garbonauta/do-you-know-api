@@ -2,8 +2,8 @@ import {
   upsertUser as upsertUserDb,
   getUserInfo as getUserInfoDb,
   getFriendsInfoByArray,
-  userGroupExists as userGroupExistsDb,
   insertUserGroupPost as insertUserGroupPostDb,
+  deleteUserPost as deleteUserPostDb,
 } from 'models/repositories/user'
 
 export async function upsertUser(id, user) {
@@ -22,6 +22,10 @@ export function getFriendsFromList(friends) {
   return getFriendsInfoByArray(friendsIds)
 }
 
-export async function insertUserGroupPost(userId, pair) {
-  return await insertUserGroupPostDb(userId, pair)
+export function insertUserGroupPost(userId, pair) {
+  return insertUserGroupPostDb(userId, pair)
+}
+
+export function deleteUserPost(userId, postId) {
+  return deleteUserPostDb(userId, postId)
 }

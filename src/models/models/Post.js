@@ -4,7 +4,7 @@ const { Schema } = mongoose
 
 const postSchema = new Schema({
   _id: Schema.Types.ObjectId,
-  groupId: Schema.Types.ObjectId,
+  groupId: { type: Schema.Types.ObjectId, ref: 'Group' },
   text: String,
   owner: { type: String, ref: 'User' },
   createdAt: { type: Date, default: Date.now() },

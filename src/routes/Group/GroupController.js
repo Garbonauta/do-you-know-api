@@ -2,10 +2,10 @@ import { getAuthInfoFromJWT } from 'helpers/utils'
 import { getAuth0FullUserProfile } from 'helpers/api'
 import { getGroups } from 'models/services/group'
 import {
-  postUserGroupPost,
-  getGroupPosts as getGroupPostService,
-  deleteUserGroupPost,
-} from 'models/services/groupPost'
+  postUserPost,
+  getPostByGroupId,
+  deleteUserPost,
+} from 'models/services/post'
 import {
   validateUserGroup,
   isSuperUser,
@@ -31,7 +31,7 @@ class GroupController {
       if (!validateUserGroup(authInfo, groupId) && !isSuperUser(authInfo)) {
         return Boom.unauthorized('Unauthorized User')
       }
-      return await getGroupPostService(groupId)
+      return await getPostByGroupId(groupId)
     } catch (error) {
       req.log('error', error)
       return Boom.badRequest('Unexpected Error when retrieving Posts')
@@ -51,7 +51,7 @@ class GroupController {
         return Boom.unauthorized('Unauthorized User')
       }
 
-      return await postUserGroupPost(authInfo, groupId, data)
+      return await postUserPost(authInfo, groupId, data)
     } catch (error) {
       req.log('error', error)
       return Boom.badRequest('Unexpected Error Creating New Post')
@@ -62,7 +62,7 @@ class GroupController {
     const groupId = req.params.groupId
     const postId = req.params.postId
     if (
-      !isPostOwner(postId) &&
+      !isPostOwner(postId, authInfo) &&
       !isGroupModerator &&
       !isSuperUser(authInfo) &&
       !data.owner === authInfo
@@ -71,8 +71,7 @@ class GroupController {
     }
 
     try {
-      isPostOwner(postId, authInfo)
-      await deleteUserGroupPost(authInfo, groupId, postId)
+      await deleteUserPost(authInfo, postId)
       return h.response().code(204)
     } catch (error) {
       req.log('error', error)

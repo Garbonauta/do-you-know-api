@@ -1,22 +1,29 @@
 import { Post } from 'models/models'
 import mongoose from 'mongoose'
 
-export function insertPost({ postText, owner, createdAt }) {
+export function insertPost({ groupId, postText, owner, createdAt }) {
   const post = new Post({
     _id: mongoose.Types.ObjectId(),
-    text: postText,
+    groupId,
     owner,
+    text: postText,
     createdAt: new Date(createdAt),
   })
   return post.save()
 }
 
-export async function getPost(postId) {
+export function getPost(postId) {
   return Post.findById(postId)
     .populate(
       'owner',
       '_id info.firstName info.middleName info.lastName info.fullName info.link info.email info.pictures meta.score meta.groups createdAt'
     )
+    .lean()
+}
+
+export function getPostsByGroupId(groupId) {
+  return Post.find({ groupId: groupId })
+    .populate('owner', 'info.fullName info.link info.pictures.small')
     .lean()
 }
 

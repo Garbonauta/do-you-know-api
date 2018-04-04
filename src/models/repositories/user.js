@@ -37,3 +37,12 @@ export async function insertUserGroupPost(userId, pair) {
   user.meta.posts.push(pair)
   return user.save()
 }
+
+export function deleteUserPost(userId, postId) {
+  return User.findOneAndUpdate(
+    { _id: userId },
+    {
+      $pull: { 'meta.posts': { postId: postId } },
+    }
+  )
+}
