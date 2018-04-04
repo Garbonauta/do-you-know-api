@@ -22,7 +22,9 @@
     "@babel/polyfill": "^7.0.0-beta.40",
     "@babel/preset-env": "^7.0.0-beta.40",
     "@babel/preset-stage-0": "^7.0.0-beta.40",
-    "@babel/register": "^7.0.0-beta.40"
+    "@babel/register": "^7.0.0-beta.40",
+    "jest": "^22.4.3",
+    "prettier": "^1.11.1"
   },
   "repository": {
     "type": "git",

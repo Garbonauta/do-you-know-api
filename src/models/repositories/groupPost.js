@@ -1,32 +1,33 @@
 import { GroupPost, Post } from 'models/models'
 import mongoose from 'mongoose'
+import Group from '../models/Group'
 
 export async function getGroupPosts(groupId) {
-  const posts = await GroupPost.findById(groupId, 'posts._id posts.text posts.owner posts.createdAt')
-    .populate('posts.owner', 'info.fullName info.link info.pictures.small');
-  return posts.toObject();
+  const posts = await GroupPost.findById(groupId).populate({
+    path: 'posts',
+    populate: {
+      path: 'owner',
+      select: 'info.fullName info.link info.pictures.small',
+    },
+  })
+  return posts ? posts.toObject() : {}
 }
 
-export async function insertGroupPost(groupId, {postText, owner, createdAt}) {
-  let groupPost = await GroupPost.findById(groupId);
+export async function insertGroupPost(groupId, postId) {
+  let groupPost =
+    (await GroupPost.findById(groupId)) ||
+    new GroupPost({ _id: groupId, posts: [] })
 
-  const post = new Post({
-    _id: mongoose.Types.ObjectId(),
-    text: postText,
-    owner,
-    createdAt: new Date(createdAt)
-  });
+  groupPost.posts.push(postId)
 
-  if(!groupPost) {
-    groupPost = new GroupPost({
-      _id: groupId,
-      posts: [post]
-    });
-  } else {
-    groupPost.posts.push(post)
-  }
+  return groupPost.save()
+}
 
-  await groupPost.save();
-
-  return post.toObject();
+export function deleteGroupPost(groupId, postId) {
+  return GroupPost.findOneAndUpdate(
+    { _id: groupId },
+    {
+      $pull: { posts: { $in: [postId] } },
+    }
+  )
 }

@@ -1,33 +1,26 @@
 import {
-  upsertUser as upsertUserDb, getUserInfo as getUserInfoDb, getFriendsInfoByArray,
-  userGroupExists as userGroupExistsDb, insertUserGroupPost as insertUserGroupPostDb
+  upsertUser as upsertUserDb,
+  getUserInfo as getUserInfoDb,
+  getFriendsInfoByArray,
+  userGroupExists as userGroupExistsDb,
+  insertUserGroupPost as insertUserGroupPostDb,
 } from 'models/repositories/user'
 
 export async function upsertUser(id, user) {
-  const result =  await upsertUserDb(id, user);
-  delete result.info.email;
-  return result;
+  const result = await upsertUserDb(id, user)
+  delete result.info.email
+  return result
 }
 
 export function getUserInfo(id) {
-  return getUserInfoDb(id);
+  return getUserInfoDb(id)
 }
 
 export function getFriendsFromList(friends) {
-  const friendsIds = friends.map(friend => `facebook|${friend.id}`);
-  return getFriendsInfoByArray(friendsIds);
-}
-
-export async function userGroupExists(userId, groupId) {
-  try {
-    const user =  await userGroupExistsDb(userId, groupId);
-    return typeof user !== 'undefined' && user !== null;
-  } catch(error) {
-    return false;
-  }
+  const friendsIds = friends.map(friend => `facebook|${friend.id}`)
+  return getFriendsInfoByArray(friendsIds)
 }
 
 export async function insertUserGroupPost(userId, pair) {
-  return await insertUserGroupPostDb(userId, pair);
+  return await insertUserGroupPostDb(userId, pair)
 }
-

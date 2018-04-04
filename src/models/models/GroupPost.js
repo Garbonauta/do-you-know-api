@@ -1,13 +1,12 @@
 import mongoose from 'mongoose'
-import { postSchema } from './Post'
 
-const {Schema} = mongoose;
+const { Schema } = mongoose
 
 const groupPostSchema = new Schema({
-  _id:  Schema.Types.ObjectId,
-  posts: [postSchema],
-});
+  _id: Schema.Types.ObjectId,
+  posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
+})
 
-const GroupPost = mongoose.model('GroupPost', groupPostSchema);
+const GroupPost = mongoose.model('GroupPost', groupPostSchema)
 
-export default GroupPost;
+export default GroupPost
