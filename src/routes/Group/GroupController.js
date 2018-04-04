@@ -64,8 +64,8 @@ class GroupController {
     const postId = req.params.postId
 
     try {
-      deleteUserGroupPost(authInfo, groupId, postId)
-      return { text: 'OK' }
+      await deleteUserGroupPost(authInfo, groupId, postId)
+      return h.response().code(204)
     } catch (error) {
       req.log('error', error)
       return Boom.badRequest('Unexpected Error Creating New Post')

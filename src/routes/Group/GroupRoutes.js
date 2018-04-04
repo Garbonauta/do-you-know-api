@@ -23,6 +23,11 @@ const GroupRoutesPlugin = {
     server.route({
       method: 'DELETE',
       path: '/{groupId}/posts/{postId}',
+      config: {
+        response: {
+          emptyStatusCode: 204,
+        },
+      },
       handler: groupController.deleteGroupPost,
     })
   },
