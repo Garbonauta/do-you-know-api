@@ -1,4 +1,4 @@
-require('@babel/polyfill');
-require('@babel/register');
-require('dotenv').config();
-require('./server');
+require('@babel/polyfill')
+require('@babel/register')
+require('dotenv').config()
+require('./src/server')

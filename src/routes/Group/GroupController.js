@@ -15,6 +15,8 @@ import {
 } from 'models/services/validation'
 import Boom from 'boom'
 
+const PAGE_COUNT_DEFAULT = 8
+
 class GroupController {
   async list(req, h) {
     try {
@@ -31,7 +33,10 @@ class GroupController {
       if (!validateUserGroup(authInfo, groupId) && !isSuperUser(authInfo)) {
         return Boom.unauthorized('Unauthorized User')
       }
-      return await getPostByGroupId(groupId)
+      const queryParams = req.query
+      const lastId = queryParams.lastid
+      const recordCount = parseInt(queryParams.count) || PAGE_COUNT_DEFAULT
+      return await getPostByGroupId(groupId, { lastId, recordCount })
     } catch (error) {
       req.log('error', error)
       return Boom.badRequest('Unexpected Error when retrieving Posts')

@@ -18,8 +18,12 @@ export async function getPost(postId) {
   return await getPostDb(postId)
 }
 
-export async function getPostByGroupId(groupId) {
-  return await getPostsByGroupIdDb(groupId)
+export async function getPostByGroupId(groupId, { lastId, recordCount }) {
+  let query = { groupId: groupId }
+  if (lastId) {
+    query = Object.assign(query, { _id: { $lt: lastId } })
+  }
+  return await getPostsByGroupIdDb(query, recordCount)
 }
 
 export function deletePost(postId) {

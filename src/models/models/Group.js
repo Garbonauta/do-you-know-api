@@ -1,18 +1,20 @@
 import mongoose from 'mongoose'
+import autoIncrement from 'mongoose-auto-increment'
 
-const {Schema} = mongoose;
+const { Schema } = mongoose
 
 const groupSchema = new Schema({
-  _id: Schema.Types.ObjectId,
   name: String,
   pictureUrl: String,
-  owner: {type: String, ref: 'User'},
-  moderators: [{type: String, ref: 'User'}],
-  members: [{type: Schema.Types.Mixed, ref: 'User'}],
+  owner: { type: String, ref: 'User' },
+  moderators: [{ type: String, ref: 'User' }],
+  members: [{ type: Schema.Types.Mixed, ref: 'User' }],
   visibility: Boolean,
-  createdAt: {type: Date, default: Date.now()},
-});
+  createdAt: { type: Date, default: Date.now() },
+})
 
-const Group = mongoose.model('Group', groupSchema);
+autoIncrement.initialize(mongoose.connection)
+groupSchema.plugin(autoIncrement.plugin, 'Group')
+const Group = mongoose.model('Group', groupSchema)
 
-export default Group;
+export default Group

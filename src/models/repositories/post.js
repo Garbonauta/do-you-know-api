@@ -3,7 +3,6 @@ import mongoose from 'mongoose'
 
 export function insertPost({ groupId, postText, owner, createdAt }) {
   const post = new Post({
-    _id: mongoose.Types.ObjectId(),
     groupId,
     owner,
     text: postText,
@@ -21,9 +20,11 @@ export function getPost(postId) {
     .lean()
 }
 
-export function getPostsByGroupId(groupId) {
-  return Post.find({ groupId: groupId })
+export function getPostsByGroupId(query, recordCount) {
+  return Post.find(query)
     .populate('owner', 'info.fullName info.link info.pictures.small')
+    .sort({ createdAt: -1 })
+    .limit(recordCount)
     .lean()
 }
 
