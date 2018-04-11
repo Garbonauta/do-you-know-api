@@ -33,9 +33,8 @@ class GroupController {
       if (!validateUserGroup(authInfo, groupId) && !isSuperUser(authInfo)) {
         return Boom.unauthorized('Unauthorized User')
       }
-      const queryParams = req.query
-      const lastId = queryParams.lastid
-      const recordCount = parseInt(queryParams.count) || PAGE_COUNT_DEFAULT
+      const { lastId, count } = req.query
+      const recordCount = parseInt(count) || PAGE_COUNT_DEFAULT
       return await getPostByGroupId(groupId, { lastId, recordCount })
     } catch (error) {
       req.log('error', error)
