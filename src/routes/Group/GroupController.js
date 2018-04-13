@@ -1,81 +1,83 @@
 import { getAuthInfoFromJWT } from 'helpers/utils'
-import { getAuth0FullUserProfile } from 'helpers/api'
-import { getGroups } from 'models/services/group'
 import {
-  postUserPost,
-  getPostByGroupId,
-  deleteUserPost,
-} from 'models/services/post'
-import {
-  validateUserGroup,
-  isSuperUser,
-  validateGroupPostUser,
-  isPostOwner,
-  isGroupModerator,
-} from 'models/services/validation'
+  GroupServiceFactory,
+  PostServiceFactory,
+  ValidationServiceFactory,
+} from 'models/services'
 import Boom from 'boom'
 
 const PAGE_COUNT_DEFAULT = 8
 
 class GroupController {
-  async list(req, h) {
+  constructor({ groupService, postService, validationService }) {
+    this.groupService = groupService
+    this.postService = postService
+    this.validationService = validationService
+  }
+  list = async (req, h) => {
     try {
-      return await getGroups(req.query)
+      return await this.groupService.getGroups(req.query)
     } catch (error) {
       return Boom.badRequest(error)
     }
   }
-  async getGroupPosts(req, h) {
+  getGroupPosts = async (req, h) => {
     const authInfo = getAuthInfoFromJWT(req)
     const groupId = req.params.groupId
 
     try {
-      if (!validateUserGroup(authInfo, groupId) && !isSuperUser(authInfo)) {
+      if (
+        !this.validationService.validateUserGroup(authInfo, groupId) &&
+        !this.validationService.isSuperUser(authInfo)
+      ) {
         return Boom.unauthorized('Unauthorized User')
       }
       const { lastId, count } = req.query
       const recordCount = parseInt(count) || PAGE_COUNT_DEFAULT
-      return await getPostByGroupId(groupId, { lastId, recordCount })
+      return await this.postService.getPostByGroupId(groupId, {
+        lastId,
+        recordCount,
+      })
     } catch (error) {
       req.log('error', error)
       return Boom.badRequest('Unexpected Error when retrieving Posts')
     }
   }
-  async createGroupPost(req, h) {
+  createGroupPost = async (req, h) => {
     const authInfo = getAuthInfoFromJWT(req)
     const groupId = req.params.groupId
     const data = req.payload
 
     try {
       if (
-        !validateUserGroup(authInfo, groupId) &&
-        !isSuperUser(authInfo) &&
+        !this.validationService.validateUserGroup(authInfo, groupId) &&
+        !this.validationService.isSuperUser(authInfo) &&
         !data.owner === authInfo
       ) {
         return Boom.unauthorized('Unauthorized User')
       }
 
-      return await postUserPost(authInfo, groupId, data)
+      return await this.postService.postUserPost(authInfo, groupId, data)
     } catch (error) {
       req.log('error', error)
       return Boom.badRequest('Unexpected Error Creating New Post')
     }
   }
-  async deleteGroupPost(req, h) {
+  deleteGroupPost = async (req, h) => {
     const authInfo = getAuthInfoFromJWT(req)
     const groupId = req.params.groupId
     const postId = req.params.postId
     if (
-      !isPostOwner(postId, authInfo) &&
-      !isGroupModerator &&
-      !isSuperUser(authInfo) &&
+      !this.validationService.isPostOwner(postId, authInfo) &&
+      !this.validationService.isGroupModerator &&
+      !this.validationService.isSuperUser(authInfo) &&
       !data.owner === authInfo
     ) {
       return Boom.unauthorized('Unauthorized User')
     }
 
     try {
-      await deleteUserPost(authInfo, postId)
+      await this.postService.deleteUserPost(authInfo, postId)
       return h.response().code(204)
     } catch (error) {
       req.log('error', error)
@@ -84,4 +86,9 @@ class GroupController {
   }
 }
 
-export default GroupController
+export const GroupControllerFactory = () =>
+  new GroupController({
+    groupService: GroupServiceFactory(),
+    postService: PostServiceFactory(),
+    validationService: ValidationServiceFactory(),
+  })

@@ -1,16 +1,16 @@
-import LoginController from './LoginController'
-const loginController = new LoginController();
+import { LoginControllerFactory } from './LoginController'
+const loginController = LoginControllerFactory()
 
 const LoginRoutesPlugin = {
   name: 'LoginRoutesPlugin',
   version: '1.0.0',
-  register: async function (server) {
+  register: async function(server) {
     server.route({
       method: 'GET',
       path: '/',
-      handler: loginController.login
+      handler: loginController.login,
     })
-  }
-};
+  },
+}
 
-export default LoginRoutesPlugin;
+export default LoginRoutesPlugin

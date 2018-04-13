@@ -1,5 +1,5 @@
-import GroupController from './GroupController'
-const groupController = new GroupController()
+import { GroupControllerFactory } from './GroupController'
+const groupController = GroupControllerFactory()
 
 const GroupRoutesPlugin = {
   name: 'GroupRoutesPlugin',

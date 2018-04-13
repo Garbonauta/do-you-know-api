@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_PATH=./src node bootstrap.js"
+    "start": "NODE_PATH=./src node bootstrap.js",
+    "test": "NODE_PATH=./src nodemon $NODE_DEBUG_OPTION bootstrap.js"
   },
   "dependencies": {
     "boom": "^7.2.0",
@@ -25,6 +26,7 @@
     "@babel/preset-stage-0": "^7.0.0-beta.40",
     "@babel/register": "^7.0.0-beta.40",
     "jest": "^22.4.3",
+    "nodemon": "^1.17.3",
     "prettier": "^1.11.1"
   },
   "repository": {
@@ -36,5 +38,9 @@
   "bugs": {
     "url": "https://github.com/Garbonauta/do-you-know-api/issues"
   },
-  "homepage": "https://github.com/Garbonauta/do-you-know-api#readme"
+  "homepage": "https://github.com/Garbonauta/do-you-know-api#readme",
+  "nodemonConfig": {
+    "ignore": ["node_modules/*", "dist/*"],
+    "delay": "5000"
+  }
 }
