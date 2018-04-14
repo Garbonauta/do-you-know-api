@@ -15,6 +15,11 @@ const PostRoutesPlugin = {
       },
       handler: postController.deletePost,
     })
+    server.route({
+      method: 'POST',
+      path: '/{postId}',
+      handler: postController.postComment,
+    })
   },
 }
 

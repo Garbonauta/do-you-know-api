@@ -19,14 +19,6 @@ class UserService {
     const friendsIds = friends.map(friend => `facebook|${friend.id}`)
     return this.userRepository.getFriendsInfoByArray(friendsIds)
   }
-
-  insertUserGroupPost = async (userId, pair) => {
-    return await this.userRepository.insertUserGroupPost(userId, pair)
-  }
-
-  deleteUserPost = async (userId, postId) => {
-    return await this.userRepository.deleteUserPost(userId, postId)
-  }
 }
 
 const userRepository = new UserRepository()

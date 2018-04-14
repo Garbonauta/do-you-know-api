@@ -20,12 +20,6 @@ const userSchema = new Schema({
     favoriteGroup: Schema.Types.ObjectId,
     score: { type: Number, default: 0 },
     groups: [{ type: Number, ref: 'Group' }],
-    posts: [
-      {
-        postId: Number,
-      },
-    ],
-    comments: [Schema.Types.ObjectId],
   },
   notifications: [Schema.Types.Mixed],
   superUser: { type: Boolean, default: false },

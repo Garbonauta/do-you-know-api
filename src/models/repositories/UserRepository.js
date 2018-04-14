@@ -32,21 +32,6 @@ class UserRepository {
       '_id info.fullName info.link info.pictures'
     ).lean()
   }
-
-  insertUserGroupPost = async (userId, pair) => {
-    const user = await User.findById(userId)
-    user.meta.posts.push(pair)
-    return user.save()
-  }
-
-  deleteUserPost = (userId, postId) => {
-    return User.findOneAndUpdate(
-      { _id: userId },
-      {
-        $pull: { 'meta.posts': { postId: postId } },
-      }
-    )
-  }
 }
 
 export default UserRepository

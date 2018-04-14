@@ -27,6 +27,10 @@ class PostController {
       return Boom.badRequest('Unexpected Error Deleting Post')
     }
   }
+  postComment = (req, h) => {
+    const data = req.payload
+    return data
+  }
 }
 
 export const PostControllerFactory = () =>
