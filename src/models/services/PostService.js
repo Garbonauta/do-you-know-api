@@ -1,8 +1,24 @@
 import PostRepository from 'models/repositories/PostRepository'
+import { UserServiceFactory } from 'models/services'
+
+async function setOwner(posts) {
+  return await Promise.all(
+    posts.map(async post => {
+      post.owner = await getPostOwner.call(this, post)
+      return post
+    })
+  )
+}
+
+async function getPostOwner(post) {
+  const owner = await this.userService.getSimpleUserInfo(post.owner)
+  return owner[0]
+}
 
 class PostService {
-  constructor({ postRepository }) {
+  constructor({ postRepository, userService }) {
     this.postRepository = postRepository
+    this.userService = userService
   }
   insertPost = async post => {
     const obj = await this.postRepository.insertPost(post)
@@ -18,7 +34,11 @@ class PostService {
     if (lastId) {
       query = Object.assign(query, { _id: { $lt: lastId } })
     }
-    return await this.postRepository.getPostsByGroupId(query, recordCount)
+    const posts = await this.postRepository.getPostsByGroupId(
+      query,
+      recordCount
+    )
+    return await setOwner.call(this, posts)
   }
 
   deletePost(postId) {
@@ -27,7 +47,10 @@ class PostService {
 
   postUserPost = async (userId, groupId, payload) => {
     try {
-      return await this.postRepository.insertPost(payload)
+      const post = await this.postRepository.insertPost(payload)
+      const postObj = post.toObject()
+      postObj.owner = await getPostOwner.call(this, post)
+      return postObj
     } catch (error) {
       throw error
     }
@@ -43,4 +66,5 @@ class PostService {
 }
 
 const postRepository = new PostRepository()
-export const PostServiceFactory = () => new PostService({ postRepository })
+export const PostServiceFactory = () =>
+  new PostService({ postRepository, userService: UserServiceFactory() })

@@ -7,12 +7,7 @@ const postSchema = new Schema({
   groupId: { type: Number, ref: 'Group' },
   groupName: String,
   text: String,
-  owner: {
-    userId: String,
-    fullName: String,
-    link: String,
-    picture: String,
-  },
+  owner: { type: String, ref: 'User' },
   createdAt: { type: Date, default: Date.now() },
   modifiedAt: Date,
 })

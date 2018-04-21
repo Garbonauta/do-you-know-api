@@ -15,6 +15,10 @@ class UserService {
     return this.userRepository.getUserInfo(id)
   }
 
+  getSimpleUserInfo = async id => {
+    return await this.userRepository.getSimpleUserInfo(id)
+  }
+
   getFriendsFromList = friends => {
     const friendsIds = friends.map(friend => `facebook|${friend.id}`)
     return this.userRepository.getFriendsInfoByArray(friendsIds)

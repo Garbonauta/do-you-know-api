@@ -22,6 +22,21 @@ class UserRepository {
     return User.findById(id, '_id info').lean()
   }
 
+  getSimpleUserInfo = id => {
+    return User.aggregate([
+      { $match: { _id: id } },
+      {
+        $project: {
+          _id: 0,
+          userId: '$_id',
+          fullName: '$info.fullName',
+          link: '$info.link',
+          picture: '$info.pictures.small',
+        },
+      },
+    ])
+  }
+
   getUserInfoByArray = ids => {
     return User.find({ _id: { $in: ids } }, '_id info').lean()
   }
