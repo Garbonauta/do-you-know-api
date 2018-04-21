@@ -1,19 +1,6 @@
 import PostRepository from 'models/repositories/PostRepository'
 import { UserServiceFactory } from 'models/services'
-
-async function setOwner(posts) {
-  return await Promise.all(
-    posts.map(async post => {
-      post.owner = await getPostOwner.call(this, post)
-      return post
-    })
-  )
-}
-
-async function getPostOwner(post) {
-  const owner = await this.userService.getSimpleUserInfo(post.owner)
-  return owner[0]
-}
+import { setCollectionOwner, getSimpleOwner } from 'helpers/utils'
 
 class PostService {
   constructor({ postRepository, userService }) {
@@ -38,7 +25,7 @@ class PostService {
       query,
       recordCount
     )
-    return await setOwner.call(this, posts)
+    return await setCollectionOwner.call(this, posts)
   }
 
   deletePost(postId) {
@@ -49,7 +36,7 @@ class PostService {
     try {
       const post = await this.postRepository.insertPost(payload)
       const postObj = post.toObject()
-      postObj.owner = await getPostOwner.call(this, post)
+      postObj.owner = await getSimpleOwner.call(this, post)
       return postObj
     } catch (error) {
       throw error
@@ -65,6 +52,7 @@ class PostService {
   }
 }
 
-const postRepository = new PostRepository()
-export const PostServiceFactory = () =>
-  new PostService({ postRepository, userService: UserServiceFactory() })
+export const PostServiceFactory = () => {
+  const postRepository = new PostRepository()
+  return new PostService({ postRepository, userService: UserServiceFactory() })
+}

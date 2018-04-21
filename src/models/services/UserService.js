@@ -25,5 +25,7 @@ class UserService {
   }
 }
 
-const userRepository = new UserRepository()
-export const UserServiceFactory = () => new UserService({ userRepository })
+export const UserServiceFactory = () => {
+  const userRepository = new UserRepository()
+  return new UserService({ userRepository })
+}

@@ -13,5 +13,7 @@ class GroupService {
   }
 }
 
-const groupRepository = new GroupRepository()
-export const GroupServiceFactory = () => new GroupService({ groupRepository })
+export const GroupServiceFactory = () => {
+  const groupRepository = new GroupRepository()
+  return new GroupService({ groupRepository })
+}

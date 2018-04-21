@@ -8,14 +8,11 @@ const commentSchema = new Schema({
   groupName: String,
   postId: { type: Number, ref: 'Post' },
   text: String,
-  owner: {
-    userId: String,
-    fullName: String,
-    link: String,
-    picture: String,
-  },
+  owner: { type: String, ref: 'User' },
   createdAt: { type: Date, default: Date.now() },
   modifiedAt: Date,
+  score: Number,
+  votes: [Schema.Types.Mixed],
 })
 
 autoIncrement.initialize(mongoose.connection)

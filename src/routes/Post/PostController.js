@@ -1,9 +1,14 @@
-import { PostServiceFactory, ValidationServiceFactory } from 'models/services'
+import {
+  CommentServiceFactory,
+  PostServiceFactory,
+  ValidationServiceFactory,
+} from 'models/services'
 import { getAuthInfoFromJWT } from '../../helpers/utils'
 import Boom from 'boom'
 
 class PostController {
-  constructor({ postService, validationService }) {
+  constructor({ commentService, postService, validationService }) {
+    this.commentService = commentService
     this.postService = postService
     this.validationService = validationService
   }
@@ -27,14 +32,29 @@ class PostController {
       return Boom.badRequest('Unexpected Error Deleting Post')
     }
   }
-  postComment = (req, h) => {
+  postComment = async (req, h) => {
     const data = req.payload
-    return data
+    const authInfo = getAuthInfoFromJWT(req)
+    const groupId = req.params.groupId
+
+    try {
+      if (
+        !this.validationService.validateUserGroup(authInfo, groupId) &&
+        !data.owner === authInfo
+      ) {
+        return Boom.unauthorized('Unauthorized User')
+      }
+      return await this.commentService.insertComment(data)
+    } catch (error) {
+      req.log('error', error)
+      return Boom.badRequest('Unexpected Error Creating Comment')
+    }
   }
 }
 
 export const PostControllerFactory = () =>
   new PostController({
+    commentService: CommentServiceFactory(),
     postService: PostServiceFactory(),
     validationService: ValidationServiceFactory(),
   })

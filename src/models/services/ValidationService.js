@@ -58,11 +58,11 @@ class ValidationService {
   }
 }
 
-const validationRepository = new ValidationRepository()
-
-export const ValidationServiceFactory = () =>
-  new ValidationService({
+export const ValidationServiceFactory = () => {
+  const validationRepository = new ValidationRepository()
+  return new ValidationService({
     validationRepository,
     postService: PostServiceFactory(),
     userService: UserServiceFactory(),
   })
+}

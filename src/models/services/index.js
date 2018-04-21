@@ -1,3 +1,4 @@
+export { CommentServiceFactory } from './CommentService'
 export { GroupServiceFactory } from './GroupService'
 export { LoginServiceFactory } from './LoginService'
 export { PostServiceFactory } from './PostService'
