@@ -7,10 +7,6 @@ class PostService {
     this.postRepository = postRepository
     this.userService = userService
   }
-  insertPost = async post => {
-    const obj = await this.postRepository.insertPost(post)
-    return obj.toObject()
-  }
 
   getPost = async postId => {
     return await this.postRepository.getPost(postId)
@@ -21,11 +17,15 @@ class PostService {
     if (lastId) {
       query = Object.assign(query, { _id: { $lt: lastId } })
     }
-    const posts = await this.postRepository.getPostsByGroupId(
-      query,
-      recordCount
-    )
-    return await setCollectionOwner.call(this, posts)
+    try {
+      const posts = await this.postRepository.getPostsByGroupId(
+        query,
+        recordCount
+      )
+      return await setCollectionOwner.call(this, posts)
+    } catch (error) {
+      throw error
+    }
   }
 
   deletePost(postId) {

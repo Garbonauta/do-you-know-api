@@ -8,10 +8,14 @@ class CommentService {
     this.userService = userService
   }
   insertComment = async comment => {
-    const com = await this.commentRepository.insertComment(comment)
-    const comObj = com.toObject()
-    comObj.owner = await getSimpleOwner.call(this, com)
-    return comObj
+    try {
+      const com = await this.commentRepository.insertComment(comment)
+      const comObj = com.toObject()
+      comObj.owner = await getSimpleOwner.call(this, com)
+      return comObj
+    } catch (error) {
+      throw error
+    }
   }
 }
 
