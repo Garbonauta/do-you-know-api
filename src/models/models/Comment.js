@@ -7,6 +7,7 @@ const commentSchema = new Schema({
   groupId: { type: Number, ref: 'Group' },
   groupName: String,
   postId: { type: Number, ref: 'Post' },
+  postOwner: { type: String, ref: 'User' },
   text: String,
   owner: { type: String, ref: 'User' },
   createdAt: { type: Date, default: Date.now() },

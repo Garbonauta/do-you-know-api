@@ -1,6 +1,7 @@
 import Hapi from 'hapi'
 import hapiAuthJWT from 'hapi-auth-jwt2'
 import Good from 'good'
+import Nes from 'nes'
 import { LoginRoutes, GroupRoutes, PostRoutes } from 'routes'
 import MongoosePlugin from 'config/mongoose'
 import { mount } from 'config/key'
@@ -34,9 +35,9 @@ async function init() {
         },
       },
     },
+    Nes,
+    MongoosePlugin,
   ])
-
-  await server.register(MongoosePlugin)
 
   await server.register(LoginRoutes, {
     routes: {
@@ -53,6 +54,11 @@ async function init() {
   await server.register(PostRoutes, {
     routes: {
       prefix: '/post',
+    },
+  })
+  server.subscription('/notifications/{id}', {
+    filter: (path, message, options) => {
+      return true
     },
   })
 

@@ -44,6 +44,7 @@ class PostController {
       ) {
         return Boom.unauthorized('Unauthorized User')
       }
+      req.server.publish(`/notifications/${data.postOwner}`, { text: 'here' })
       return await this.commentService.insertComment(data)
     } catch (error) {
       req.log('error', error)
