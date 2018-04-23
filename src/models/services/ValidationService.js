@@ -31,7 +31,7 @@ class ValidationService {
         groupId,
         userId
       )
-      return typeof group !== 'undefined' && group !== null
+      return group !== undefined && group !== null
     } catch (error) {
       return false
     }
@@ -51,7 +51,7 @@ class ValidationService {
         userId,
         groupId
       )
-      return typeof user !== 'undefined' && user !== null
+      return user !== undefined && user !== null
     } catch (error) {
       return false
     }
