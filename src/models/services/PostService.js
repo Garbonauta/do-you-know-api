@@ -2,7 +2,7 @@ import PostRepository from 'models/repositories/PostRepository'
 import { UserServiceFactory } from 'models/services'
 import { setCollectionOwner, getSimpleOwner } from 'helpers/utils'
 
-class PostService {
+export default class PostService {
   constructor({ postRepository, userService }) {
     this.postRepository = postRepository
     this.userService = userService

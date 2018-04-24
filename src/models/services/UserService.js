@@ -1,6 +1,6 @@
 import UserRepository from 'models/repositories/UserRepository'
 
-class UserService {
+export default class UserService {
   constructor({ userRepository }) {
     this.userRepository = userRepository
   }

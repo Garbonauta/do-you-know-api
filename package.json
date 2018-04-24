@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_PATH=./src node bootstrap.js"
+    "start": "NODE_PATH=./src node bootstrap.js",
+    "jest": "NODE_PATH=./src jest ./tests/"
   },
   "dependencies": {
     "boom": "^7.2.0",
@@ -14,20 +15,23 @@
     "hapi": "^17.3.1",
     "hapi-auth-jwt2": "^8.1.0",
     "jwks-rsa": "^1.2.1",
-    "mongoose": "^5.0.15",
+    "mongoose": "^5.0.16",
     "mongoose-auto-increment": "^5.0.1",
     "nes": "^8.0.1",
     "node-fetch": "^2.1.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.44",
-    "@babel/polyfill": "^7.0.0-beta.44",
-    "@babel/preset-env": "^7.0.0-beta.44",
-    "@babel/preset-stage-0": "^7.0.0-beta.44",
-    "@babel/register": "^7.0.0-beta.44",
+    "@babel/core": "^7.0.0-beta.46",
+    "@babel/polyfill": "^7.0.0-beta.46",
+    "@babel/preset-env": "^7.0.0-beta.46",
+    "@babel/preset-stage-0": "^7.0.0-beta.46",
+    "@babel/register": "^7.0.0-beta.46",
+    "@types/jest": "^22.2.3",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^22.4.3",
     "jest": "^22.4.3",
-    "nodemon": "^1.17.3",
-    "prettier": "^1.12.1"
+    "prettier": "^1.12.1",
+    "regenerator-runtime": "^0.11.1"
   },
   "repository": {
     "type": "git",
@@ -38,12 +42,5 @@
   "bugs": {
     "url": "https://github.com/Garbonauta/do-you-know-api/issues"
   },
-  "homepage": "https://github.com/Garbonauta/do-you-know-api#readme",
-  "nodemonConfig": {
-    "ignore": [
-      "node_modules/*",
-      "dist/*"
-    ],
-    "delay": "5000"
-  }
+  "homepage": "https://github.com/Garbonauta/do-you-know-api#readme"
 }
