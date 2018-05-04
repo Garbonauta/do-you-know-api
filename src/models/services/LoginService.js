@@ -15,7 +15,7 @@ class LoginService {
     picture_large: pictureLarge,
     link,
     email,
-    context: { mutual_friends: { data: friendsList } },
+    context,
     logins_count: loginCount,
     created_at: createdAt,
     last_login: lastLogin,
@@ -38,6 +38,9 @@ class LoginService {
       loginCount,
       lastLogin,
     }
+    const friendsList = context.hasOwnProperty('mutual_friends')
+      ? context.mutual_friends.data.friendsList
+      : []
 
     const [user, friends] = await Promise.all([
       this.userService.upsertUser(id, profileUser),

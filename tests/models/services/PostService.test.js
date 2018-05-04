@@ -15,7 +15,6 @@ beforeEach(() => {
 
 it('Validate Factory Function Calls Constructor', () => {
   const postService = new PostServiceFactory()
-  const test = new UserService()
   expect(PostRepository).toHaveBeenCalledTimes(1)
   expect(postService.postRepository).toBeInstanceOf(PostRepository)
   expect(postService.userService).toBeInstanceOf(UserService)
